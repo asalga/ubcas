@@ -1,3 +1,3 @@
-window._test(){
+window._test = function(){
 	console.log('test');
 }
