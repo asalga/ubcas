@@ -1,20 +1,43 @@
+/*
+	Andor Salga
+
+	Record canvas tool
+*/
+let _p5;
+const DEBUG = true;
+
 let Controls, controls;
 let gui;
 
-
-window._test = function() {
-  console.log('test');
-}
-
+let cap;
+let isRecording = false;
+let savedFrames = 0;
+let framesToSave = 100;
+		
 Controls = function() {
-  this.saveFrame = function() {
-    console.log('save frame');
-    save();
-  }
+  this.saveFrame = () => save()
+
   this.recordVideo = function() {
     console.log('record video');
+    cap.start();
+    isRecording = true;
   };
 };
+
+function saveVideoFrame() {
+  if (isRecording === false) return;
+	
+  if (savedFrames === framesToSave) {
+    isRecording = false;
+    savedFrames = 0;
+    cap.stop();
+    cap.save();
+    return;
+  }
+
+  cap.capture(_p5.canvas);
+  savedFrames++;
+}
 
 function initCapture() {
 
